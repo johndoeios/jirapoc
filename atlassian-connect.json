@@ -1,7 +1,7 @@
 {
     "key": "your-app-key",
     "name": "Your App Name",
-    "baseUrl": "https://johndoeios.github.io/jiraplugin.github.io/",
+    "baseUrl": "https://johndoeios.github.io/jirapoc",
     "authentication": {
       "type": "none"
     },
