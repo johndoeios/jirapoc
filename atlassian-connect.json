@@ -1,7 +1,7 @@
 {
     "key": "your-app-key",
     "name": "Your App Name",
-    "baseUrl": "https://github.com/johndoeios/jiraplugin.github.io",
+    "baseUrl": "https://johndoeios.github.io/jiraplugin.github.io/",
     "authentication": {
       "type": "none"
     },
@@ -11,7 +11,7 @@
     "modules": {
       "generalPages": [
         {
-          "url": "/helloworld.html",
+          "url": "/index.html",
           "key": "main-page",
           "location": "system.top.navigation.bar",
           "name": {
