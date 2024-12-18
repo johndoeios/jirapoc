@@ -1,7 +1,7 @@
 {
     "key": "your-app-key",
     "name": "Your App Name",
-    "baseUrl": "https://navdeep2020.github.io/AtlassianGit",
+    "baseUrl": "https://johndoejira.atlassian.net/",
     "authentication": {
       "type": "none"
     },
