@@ -1,0 +1,25 @@
+{
+    "key": "your-app-key",
+    "name": "Your App Name",
+    "baseUrl": "https://navdeep2020.github.io/AtlassianGit",
+    "authentication": {
+      "type": "none"
+    },
+    "scopes": [
+      "read"
+    ],
+    "modules": {
+      "generalPages": [
+        {
+          "url": "/helloworld.html",
+          "key": "main-page",
+          "location": "system.top.navigation.bar",
+          "name": {
+            "value": "Your App"
+          }
+        }
+      ]
+    }
+}
+  
+
