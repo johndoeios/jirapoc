@@ -1,7 +1,7 @@
 {
     "key": "your-app-key",
     "name": "Sprint Assistant",
-    "baseUrl": "https://github.com/johndoeios/jirapoc",
+    "baseUrl": "https://johndoeios.github.io/jirapoc/",
     "authentication": {
       "type": "none"
     },
