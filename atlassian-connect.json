@@ -1,5 +1,5 @@
 {
-    "key": "your-app-key",
+    "key": "pay-jira-assistant-poc",
     "name": "Sprint Assistant",
     "baseUrl": "https://johndoeios.github.io/jirapoc",
     "authentication": {
