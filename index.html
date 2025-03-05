@@ -6,291 +6,10 @@
   <title>Your Connect App</title>
   <script src="https://connect-cdn.atl-paas.net/all.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="filterlogs.js"></script>
+  <script src="updateTimeLogs.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    /* Overall page styling */
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f4f8;
-    }
-
-    /* Header Style */
-    header {
-      background-color: #6200ea;
-      color: white;
-      padding: 1rem 0;
-      text-align: center;
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-
-    /* Main container wrapper */
-    .container {
-      padding: 2rem;
-    }
-
-    /* Sprint Summary Chat */
-    .chat-container {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .chat-header {
-      background: #0078D4;
-      color: #fff;
-      padding: 15px 20px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .chat-content {
-      padding: 20px;
-      flex-grow: 1;
-      overflow-y: auto;
-    }
-
-    .message {
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 8px;
-      line-height: 1.5;
-    }
-
-    .bot-message {
-      background: #f0f7ff;
-      color: #333;
-      align-self: flex-start;
-    }
-
-    .user-message {
-      background: #0078D4;
-      color: #fff;
-      align-self: flex-end;
-    }
-
-    .chat-options {
-      margin-top: 20px;
-    }
-
-    .option-button {
-      display: block;
-      background: #005FA0;
-      color: #fff;
-      text-align: center;
-      padding: 10px 15px;
-      margin: 5px 0;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 16px;
-    }
-
-    .option-button:hover {
-      background: #004080;
-    }
-
-    .chat-input {
-      padding: 15px;
-      background: #f9f9f9;
-      display: flex;
-      border-top: 1px solid #ddd;
-    }
-
-    .chat-input textarea {
-      flex-grow: 1;
-      resize: none;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 10px;
-      font-size: 16px;
-      outline: none;
-    }
-
-    .chat-input button {
-      background: #0078D4;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      margin-left: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .chat-input button:hover {
-      background: #005FA0;
-    }
-
-    pre {
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-    }
-
-
-    .team-timelog-container {
-      max-width: 800px;
-      /* Adjust the max width as needed */
-      margin: 0 auto;
-      /* Center the container */
-    }
-
-    #timeLogBarChart {
-      width: 100%;
-      /* Ensure the chart scales within the container */
-      height: auto;
-      /* Maintain aspect ratio */
-    }
-
-    /* Team Member Grid */
-    .team-member-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      /* 3 cards per row */
-      gap: 1rem;
-      padding-bottom: 1rem;
-    }
-
-    /* Team Member Card Style */
-    .team-card {
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      background-color: #ffffff;
-      padding: 1rem;
-      text-align: left;
-    }
-
-    .team-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .team-card .main-kpi {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    /* Responsive Design: Adjust grid layout on smaller screens */
-    @media (max-width: 768px) {
-      .team-member-grid {
-        grid-template-columns: repeat(2, 1fr);
-        /* 2 cards per row on smaller screens */
-      }
-    }
-
-    @media (max-width: 480px) {
-      .team-member-grid {
-        grid-template-columns: 1fr;
-        /* 1 card per row on very small screens */
-      }
-    }
-
-    /* Charts container styling */
-    .pie-charts-container {
-      display: flex;
-      gap: 2rem;
-      /* Space between the two charts */
-      justify-content: center;
-      /* Center aligns the two charts */
-      align-items: flex-start;
-      /* Align charts to the top of the container */
-      padding: 1rem 0;
-    }
-
-    .chart-wrapper {
-      display: flex;
-      flex-direction: column;
-      /* Stack heading and chart vertically */
-      gap: 0rem;
-      /* Space between <h3> and <canvas> */
-      align-items: center;
-      /* Center align heading and chart */
-      background: white;
-      border-radius: 8px;
-      padding: 1rem;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .chart-wrapper #chart-description {
-      color: grey;
-    }
-
-    .chart-wrapper h3 {
-      margin-bottom: 5px;
-    }
-
-    .chart-wrapper canvas {
-      max-width: 300px;
-      /* Adjust as needed */
-      height: 300px;
-      /* Ensures consistent height */
-      display: block;
-    }
-
-    .section {
-      margin-bottom: 30px;
-    }
-
-    .bar-graph {
-      height: 100px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-    }
-
-    .bar {
-      width: 15px;
-      background-color: #3f51b5;
-      border-radius: 3px;
-      transition: height 0.3s ease;
-    }
-
-    .bar:hover {
-      background-color: #1e88e5;
-    }
-
-    /* Drop Downs */
-    .dropdown-container {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .dropdown {
-      flex: 1;
-      margin-right: 10px;
-    }
-
-    .dropdown:last-child {
-      margin-right: 0;
-    }
-
-    select {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background: #f9f9f9;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -316,8 +35,8 @@
       <div class="dropdown">
         <label for="sprint-selector">Select Sprint:</label>
         <select id="sprint-selector">
-          <option value="sprint-1">MOBL-26NOV</option>
-          <option value="sprint-2">MOBL-10DEC</option>
+          <option value="sprint-1">MOBL-04FEB</option>
+          <option value="sprint-2">MOBL-18FEB</option>
         </select>
       </div>
     </div>
@@ -325,73 +44,28 @@
     <!-- Sprint Summary Chat -->
     <div class="chat-container">
       <div class="chat-header">
-        Sprint Q&A
+        Sprint Summary Generator
       </div>
       <div class="chat-content">
         <div class="message bot-message">
-          Ask me anything about this sprint, or choose the below options:
+          Choose a template:
           <div class="chat-options">
-            <a href="#" class="option-button" style="background: #005FA0;">Summarize by Epics</a>
-            <a href="#" class="option-button">Summarize by Assignee</a>
+            <a href="#" class="option-button" style="background: #005FA0;">What happened yesterday?</a>
+            <a href="#" class="option-button">Day wise summary of a sprint</a>
+            <a href="#" class="option-button">Day wise summary of an Assignee</a>
+            <a href="#" class="option-button">Epic wise summary</a>
             <a href="#" class="option-button">Summarize by Categories (Release, Development, Bugfixes)</a>
-            <a href="#" class="option-button">Summarize by TLAs</a>
-            <a href="#" class="option-button">Summarize what happened yesterday</a>
           </div>
         </div>
-        <div class="message user-message">
-          Summarize by Categories (Release, Development, Bugfixes)
-        </div>
-        <div class="message bot-message">
-          <pre>{
-            {
-              "Release": {
-                  "jira_issues": [
-                      "MOBL-6105: Release of NAGD iOS and Android CP App covering sign-up, login, make payment, autopay, and add payment method functionalities. Testing completed and sign-off done.",
-                      "MOBL-6104: Release of GEUS iOS and Android CP App covering sign-up, login, make payment, and add payment method functionalities. Testing completed and sign-off done.",
-                      "MOBL-6096: Release 2.5.11 SDK version with bug fixes and improvements. Includes merging dev branch to master, creating tag, updating KB pages, and addressing specific issues such as card scanning UI fix and dialog dark mode style issues.",
-                      "MOBL-6095: Release CTSS build on the play store for a new AD app. Involves merging dev changes, testing the UAT app, and updating the play store.",
-                      "MOBL-6088: Rebase NAGD biller with master code and release to play store, with internal testing link provided.",
-                      "MOBL-6086: Rebase GEUS biller with master code and release to play store."
-                  ]
-              },
-              "Bugfixes": {
-                  "jira_issues": [
-                      "MOBL-6115: Resolved issue with Apple Pay not working on SIT by renewing the expired Apple Pay certificate. Tested and confirmed the fix.",
-                      "MOBL-6106: Addressed issue with Amazon Pay not working for FBEM biller on UAT due to 'Invalid Iframe Token' error.",
-                      "MOBL-6094: Provided biller support for various issues, including resolving GPay issue for CEMI biller and troubleshooting autopay issues for CICN biller.",
-                      "MOBL-6114: Fixed issues with T&C links and authorization terms being read back incorrectly by Talk Back in Android SDK. Also resolved issues with the back button and nickname screen headers.",
-                      "MOBL-6109: Updated T&C and privacy links in iOS SDK to point to a centralized location. Changes discussed with the team, implemented, and assigned to QA for testing.",
-                      "MOBL-6092: Updated Flutter POC dependency to work with the latest Android Studio, resolving conflicts and ensuring proper functionality."
-                  ]
-              },
-              "Development": {
-                  "jira_issues": [
-                      "MOBL-6111: Investigated and troubleshooted the swipe reader connection issue with EOCW AD app.",
-                      "MOBL-6101: Summarized content using LlamaIndex and Langchain for comparison of performance. Created POC with tree summarize, conducted team KT, and compared results.",
-                      "MOBL-6107: Updated T&C and Privacy policy in Android CP to point to a centralized location and added SMS policy and checkboxes where necessary.",
-                      "MOBL-6102: Updated T&C, privacy, and authorization links in Android CP to point to a centralized location.",
-                      "MOBL-6080: Added dark mode support in Jetpack Compose for Android SDK.",
-                      "MOBL-6077: Implemented detail screen design using Jetpack Compose for Android SDK.",
-                      "MOBL-6110: Updated UI for iOS CP app with changes to T&C, privacy policy, and SMS policy, including accessibility labels.",
-                      "MOBL-6100: Developed UI for JIRA app to populate sprint data and fetch development panel summary, working on APIs and integrating LangChain.",
-                      "MOBL-6099: Integrated new SDK v3.2.1 in iOS CP app and tested date picker issue.",
-                      "MOBL-6093: Developed Jira issue summary generation using Summary Chain in LangChain, exploring methods like Map-Reduce and Stuff, and working on structured output and error handling."
-                  ]
-              }
-          }
-}</pre>
-        </div>
-      </div>
-      <div class="chat-input">
-        <textarea rows="1" placeholder="Type your message..."></textarea>
-        <button>Send</button>
       </div>
     </div>
 
     <!-- Team - Time Log Section -->
     <div class="section">
       <h2>Team Time Log</h2>
-      <p>Day wise time logged by whole team in this sprint. Find your team's most productive and non-productive days.</p><br />
+      <p>Day wise time logged by whole team in this sprint. Find your team's most productive and non-productive days.</p>
+      <p><strong>Total Time Logged:</strong> <span id="total-time-logged">0</span> hours</p> 
+      <br />
       <div class="team-timelog-container">
         <canvas id="timeLogBarChart"></canvas>
       </div>
@@ -400,6 +74,7 @@
     <!-- Team - Time Log Section -->
     <div class="section">
       <h2>Team Score Cards</h2>
+      <p><strong>Story Points Completion:</strong> <span id="story-points-completion">0%</span></p>
       <div id="team-members-container" class="team-member-grid"></div>
     </div>
 
@@ -432,16 +107,20 @@
       
     </div>
   </div>
+ 
+<script type="module">
 
-  <script>
-
+ import { SPRINT_NAME, PROJECT_NAME } from "./constants.js";
+    // Store in local variables
+    window.targetSprintName = SPRINT_NAME;
     // Variables for JSON file paths
-    const responseJson = "response2.json";
-    const epicJson = "epic_response.json";
+    const responseJson = "responses/response.json";
+    const epicJson = "responses/epic_response.json";
+    const targetSprintName = window.targetSprintName || "";
 
-    // Fetch data from response.json
-    // Fetch data from response.json
-function fetchDataAndInitialize() {
+    console.log("GotSprint from shell script", targetSprintName);
+
+ function fetchDataAndInitialize() {
   fetch(responseJson)
     .then(response => response.json())
     .then(data => {
@@ -456,7 +135,7 @@ function fetchDataAndInitialize() {
           const assigneePercentageAllocation = {}; /*Assignee and its percentage in each epic*/
           const dailyTimeLogs = {};
           const statusBreakdown = {};
-
+        
           issues.forEach(issue => {
             const assignee = issue.fields.assignee?.displayName || "Unassigned";
             const worklogs = issue.fields.worklog?.worklogs || [];
@@ -482,42 +161,18 @@ function fetchDataAndInitialize() {
                 epics: []
               };
             }
-
-            const regex = /stateCount=(\d+)/;
-            const match = issue.fields.customfield_11201.match(regex);
-            const stateCount = match ? parseInt(match[1], 10) : 0;
-
-            const activeSprint = issue.fields.customfield_10104.find(sprint => sprint.includes("state=ACTIVE"));
-            const startDateMatch = activeSprint.match(/startDate=([\d\-T:.]+)\.000/);
-            const sprintStartDate = startDateMatch ? new Date(startDateMatch[1]) : null;
-
-            // Filter worklogs by active sprint start date
-            const filteredWorklogs = worklogs.filter(log => {
-               const logDate = new Date(log.started);
-               return sprintStartDate && logDate >= sprintStartDate;
-            });
             
-            filteredWorklogs.forEach(log => {
-              const assigneeName = log.author.displayName || "Unassigned"; // Get the assignee for the specific log
-              const date = new Date(log.started).toISOString().split('T')[0]; // Extract the date
-              const timeSpentHours = log.timeSpentSeconds / 3600; // Convert seconds to hours
-            
-              // Initialize dailyTimeLogs for the specific date if not present
-              if (!dailyTimeLogs[date]) {
-                dailyTimeLogs[date] = {};
-              }
-            
-              // Initialize dailyTimeLogs for the specific assignee if not present
-              if (!dailyTimeLogs[date][assigneeName]) {
-                dailyTimeLogs[date][assigneeName] = 0;
-              }
-            
-              // Add time spent to the specific assignee's log for the given date
-              dailyTimeLogs[date][assigneeName] += timeSpentHours;
-            });
+           const filteredWorklogs = getFilteredWorklogs(sprintField, worklogs, targetSprintName);
+           console.log("Filtered Worklogs for Target Sprint:", filteredWorklogs);
+           
+           // BieGraph
+           updateDailyTimeLogsAndTeamData(filteredWorklogs, dailyTimeLogs);
 
-            teamData[assignee].storyPoints += storyPoint;
-            teamData[assignee].timeSpent += worklogs.reduce((sum, log) => sum + log.timeSpentSeconds / 3600, 0);
+           updateTeamDataTime(filteredWorklogs, teamData);
+
+           // PR 
+           const pullrequests = getStateCountFromCustomField(issue.fields.customfield_11201);
+          
             if (statusId === "6") {
               teamData[assignee].completed += 1;
               teamData[assignee].completedStoryPoints += storyPoint;
@@ -531,7 +186,8 @@ function fetchDataAndInitialize() {
             if (sprintField.length > 1) {
               teamData[assignee].carryForwardTickets += 1;
             }
-            teamData[assignee].prs += stateCount;
+            teamData[assignee].prs += pullrequests;
+            teamData[assignee].storyPoints += storyPoint;
 
             // Check if customfield_10106 is null, and if so, assign "Unassigned EPIC"
             let epicName = "Unassigned EPIC";
@@ -540,6 +196,8 @@ function fetchDataAndInitialize() {
               
               if (matchingEpic) {
                 epicName = matchingEpic.fields.customfield_10105 || "Unassigned EPIC"; // Fetch epic name if exists
+              } else {
+                console.log(`No matching epic found for epicKey: ${epicKey}`);
               }
             }
 
@@ -548,34 +206,27 @@ function fetchDataAndInitialize() {
               teamData[assignee].epics.push(epicName);
             }
 
-            // Update epic StoryPoint allocation
-            if (!epicStoryPointAllocation[epicName]) {
-              epicStoryPointAllocation[epicName] = 0;
-            }
-            epicStoryPointAllocation[epicName] += storyPoint;
-
-            // Update epic assignee involved
-            if (!epicAssigneeInvolved[epicName]) {
-              epicAssigneeInvolved[epicName] = new Set(); // Using Set to ensure unique assignees
-            }
-            epicAssigneeInvolved[epicName].add(assignee);
-
-            // Update epic assignee allocation
-            if (!assigneePercentageAllocation[assignee]) {
-              assigneePercentageAllocation[assignee] = {};
-            }
-
-            if (!assigneePercentageAllocation[assignee][epicName]) {
-              assigneePercentageAllocation[assignee][epicName] = storyPoint;
-            } else {
-              assigneePercentageAllocation[assignee][epicName] += storyPoint;
-            }
+            // Pie charts
+            updateEpicStoryPointAllocation(epicStoryPointAllocation, epicName, storyPoint);
+            updateEpicAssigneeInvolved(epicAssigneeInvolved, epicName, assignee);
+            updateAssigneePercentageAllocation(assigneePercentageAllocation, assignee, epicName, storyPoint);
           });
 
           console.log(assigneePercentageAllocation);
           console.log(epicStoryPointAllocation);
 
           const teamMembers = Object.values(teamData);
+          const totalTimeLogged = teamMembers.reduce((sum, member) => sum + member.timeSpent, 0);
+          // Calculate total planned and completed story points
+          const totalStoryPointsPlanned = teamMembers.reduce((sum, member) => sum + member.storyPoints, 0);
+          const totalStoryPointsAchieved = teamMembers.reduce((sum, member) => sum + member.completedStoryPoints, 0);
+
+          // Calculate story points completion percentage
+          const storyPointsCompletion = totalStoryPointsPlanned > 0 
+              ? (totalStoryPointsAchieved / totalStoryPointsPlanned) * 100 
+              : 0;
+          document.getElementById("story-points-completion").textContent = `${totalStoryPointsAchieved}/${totalStoryPointsPlanned} (${storyPointsCompletion.toFixed(2)}%)`;
+          document.getElementById("total-time-logged").textContent = totalTimeLogged.toFixed(2);
           generateTeamMemberCards(teamMembers);
           renderEpicCharts(epicStoryPointAllocation, epicAssigneeInvolved, assigneePercentageAllocation);
           renderStatusChart(statusBreakdown);
@@ -591,6 +242,62 @@ function fetchDataAndInitialize() {
     .catch(error => console.error("Error fetching data:", error));
 }
 
+ function updateTeamDataTime(filteredWorklogs, teamData) {
+  filteredWorklogs.map(log => {
+      const assigneeName = log.author.displayName || "Unassigned"; // Get the assignee for the specific log
+      const timeSpentHours = log.timeSpentSeconds / 3600; // Convert seconds to hours
+      teamData[assigneeName] = teamData[assigneeName] || {
+        name: assigneeName,
+        storyPoints: 0,
+        completedStoryPoints: 0,
+        timeSpent: 0,
+        blockedTickets: 0,
+        carryForwardTickets: 0,
+        prs: 0,
+        yetToStart: 0,
+        completed: 0,
+        epics: []
+      };
+  
+      teamData[assigneeName].timeSpent += timeSpentHours;
+    });
+ }
+  
+  // Function to extract stateCount(No. of pullrequests) from custom field
+  function getStateCountFromCustomField(customField) {
+    const regex = /stateCount=(\d+)/;
+    const match = customField.match(regex);
+    return match ? parseInt(match[1], 10) : 0;
+  }
+
+    // Function to update epic StoryPoint allocation
+    function updateEpicStoryPointAllocation(epicStoryPointAllocation, epicName, storyPoint) {
+      if (!epicStoryPointAllocation[epicName]) {
+        epicStoryPointAllocation[epicName] = 0;
+      }
+      epicStoryPointAllocation[epicName] += storyPoint;
+    }
+
+    // Function to update epic assignee involvement
+    function updateEpicAssigneeInvolved(epicAssigneeInvolved, epicName, assignee) {
+      if (!epicAssigneeInvolved[epicName]) {
+        epicAssigneeInvolved[epicName] = new Set(); // Using Set to ensure unique assignees
+      }
+      epicAssigneeInvolved[epicName].add(assignee);
+    }
+
+    // Function to update epic assignee allocation
+    function updateAssigneePercentageAllocation(assigneePercentageAllocation, assignee, epicName, storyPoint) {
+      if (!assigneePercentageAllocation[assignee]) {
+        assigneePercentageAllocation[assignee] = {};
+      }
+
+      if (!assigneePercentageAllocation[assignee][epicName]) {
+        assigneePercentageAllocation[assignee][epicName] = storyPoint;
+      } else {
+        assigneePercentageAllocation[assignee][epicName] += storyPoint;
+      }
+    }
 
     // Function to dynamically generate team member cards
     function generateTeamMemberCards(data) {
@@ -605,15 +312,23 @@ function fetchDataAndInitialize() {
         <div class="main-kpi">Story Points: ${member.completedStoryPoints}/${member.storyPoints}</div>
         <p>Time Logged: ${member.timeSpent.toFixed(2)} hours</p>
         <p>Blocked Tickets: ${member.blockedTickets}</p>
-        <p>Carry Forward Tickets: ${member.carryForwardTickets}</p>
+        <p>Tickets Carried Over from Last Sprint: ${member.carryForwardTickets}</p>
         <p>PRs: ${member.prs}</p>
         <p>Yet to Start: ${member.yetToStart}</p>
         <p>Completed: ${member.completed}</p>
         <p>Epics: ${member.epics.length > 0 ? member.epics.join(", ") : "No Epics Assigned"}</p>
-        <p>Most Time Spent on: MOBL-6112, MOBL-6119, MOBL-6120</p>
       `;
         container.appendChild(card);
       });
+    }
+
+    function generateRandomColors(numColors) {
+      const colors = [];
+      for (let i = 0; i < numColors; i++) {
+        const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+        colors.push(randomColor);
+      }
+      return colors;
     }
 
     function renderEpicCharts(epicStoryPointAllocation, epicAssigneeInvolved, assigneePercentageAllocation) {
@@ -630,13 +345,14 @@ function fetchDataAndInitialize() {
 
       // Update chart with the processed data
       const epicAllocationCtx = document.getElementById('epic-allocation-chart').getContext('2d');
+      const backgroundColors = generateRandomColors(labels.length);
       new Chart(epicAllocationCtx, {
         type: 'pie',
         data: {
           labels: labels, // Use the labels array here
           datasets: [{
             data: data, // Use the data array here
-            backgroundColor: ['#8e44ad', '#2ecc71', '#e74c3c', '#3498db', '#f39c12', '#2c3e50', '#117864'],
+            backgroundColor: backgroundColors,
           }]
         },
         options: {
@@ -680,7 +396,7 @@ function fetchDataAndInitialize() {
           labels: assigneeLabels, // Use the labels array here
           datasets: [{
             data: assigneeData, // Use the data array here
-            backgroundColor: ['#8e44ad', '#2ecc71', '#e74c3c', '#3498db', '#f39c12', '#2c3e50', '#117864'],
+            backgroundColor: backgroundColors,
           }]
         },
         options: {
@@ -736,7 +452,7 @@ function fetchDataAndInitialize() {
         dataset.push({
           label: assignee,
           data: assigneeAllocation,
-          // backgroundColor: epicColors.slice(0, epicNames.length) // Use colors for each epic
+         
         });
       });
 
@@ -790,6 +506,8 @@ function fetchDataAndInitialize() {
     function renderStatusChart(statusBreakdown) {
       const labels = Object.keys(statusBreakdown); // Status names (e.g., Open, Closed)
       const data = Object.values(statusBreakdown); // Corresponding counts for each status
+
+      const totalTickets = data.reduce((sum, count) => sum + count, 0); // Total count of tickets
     
       // Get the chart canvas context
       const statusChartCtx = document.getElementById("issue-breakdown-chart").getContext("2d");
@@ -835,7 +553,7 @@ function fetchDataAndInitialize() {
             },
             title: {
               display: true,
-              text: "Issue Status Breakdown",
+              text: `Issue Status Breakdown (Total: ${totalTickets} tickets)`,
             },
           },
         },

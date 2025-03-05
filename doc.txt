@@ -1,0 +1,27 @@
+
+function fetchDataAndInitialize() 
+
+Here at first we are fetching two responses 
+1. responseJson
+2. epicJson
+
+then we are fwtching issues -> respective for each issue -> we are fetching below things
+
+            const assignee = issue.fields.assignee?.displayName || "Unassigned";
+            const worklogs = issue.fields.worklog?.worklogs || [];
+            const statusId = issue.fields.status?.id || "";
+            const sprintField = issue.fields.customfield_10104 || [];
+            const storyPoint = issue.fields.customfield_10102 || 0;
+            const epicKey = issue.fields.customfield_10106 || null; // We check this for "Unassigned EPIC"
+            const statusName = issue.fields.status?.name || "Unknown Status";
+
+Further we are picking up the targetSprint from all sprints available in response.
+
+filtering logs based on targetSprint
+filtering logs based on targetSprint for dailytimelog graph
+
+Assigning all information like storypoint, prs etc for teamData Card
+
+Storing all epiecharts data and calling their functions
+
+redenring biegraph for timelog

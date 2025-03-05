@@ -1,0 +1,283 @@
+
+/* Overall page styling */
+* {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+  }
+
+  /* Header Style */
+  header {
+    background-color: #6200ea;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  /* Main container wrapper */
+  .container {
+    padding: 2rem;
+  }
+
+  /* Sprint Summary Chat */
+  .chat-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-header {
+    background: #0078D4;
+    color: #fff;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .chat-content {
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+  .message {
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    line-height: 1.5;
+  }
+
+  .bot-message {
+    background: #f0f7ff;
+    color: #333;
+    align-self: flex-start;
+  }
+
+  .user-message {
+    background: #0078D4;
+    color: #fff;
+    align-self: flex-end;
+  }
+
+  .chat-options {
+    margin-top: 20px;
+  }
+
+  .option-button {
+    display: block;
+    background: #005FA0;
+    color: #fff;
+    text-align: center;
+    padding: 10px 15px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+  }
+
+  .option-button:hover {
+    background: #004080;
+  }
+
+  .chat-input {
+    padding: 15px;
+    background: #f9f9f9;
+    display: flex;
+    border-top: 1px solid #ddd;
+  }
+
+  .chat-input textarea {
+    flex-grow: 1;
+    resize: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    outline: none;
+  }
+
+  .chat-input button {
+    background: #0078D4;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .chat-input button:hover {
+    background: #005FA0;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+
+  .team-timelog-container {
+    max-width: 800px;
+    /* Adjust the max width as needed */
+    margin: 0 auto;
+    /* Center the container */
+  }
+
+  #timeLogBarChart {
+    width: 100%;
+    /* Ensure the chart scales within the container */
+    height: auto;
+    /* Maintain aspect ratio */
+  }
+
+  /* Team Member Grid */
+  .team-member-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 cards per row */
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  /* Team Member Card Style */
+  .team-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 1rem;
+    text-align: left;
+  }
+
+  .team-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .team-card .main-kpi {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Responsive Design: Adjust grid layout on smaller screens */
+  @media (max-width: 768px) {
+    .team-member-grid {
+      grid-template-columns: repeat(2, 1fr);
+      /* 2 cards per row on smaller screens */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .team-member-grid {
+      grid-template-columns: 1fr;
+      /* 1 card per row on very small screens */
+    }
+  }
+
+  /* Charts container styling */
+  .pie-charts-container {
+    display: flex;
+    gap: 2rem;
+    /* Space between the two charts */
+    justify-content: center;
+    /* Center aligns the two charts */
+    align-items: flex-start;
+    /* Align charts to the top of the container */
+    padding: 1rem 0;
+  }
+
+  .chart-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* Stack heading and chart vertically */
+    gap: 0rem;
+    /* Space between <h3> and <canvas> */
+    align-items: center;
+    /* Center align heading and chart */
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .chart-wrapper #chart-description {
+    color: grey;
+  }
+
+  .chart-wrapper h3 {
+    margin-bottom: 5px;
+  }
+
+  .chart-wrapper canvas {
+    max-width: 300px;
+    /* Adjust as needed */
+    height: 300px;
+    /* Ensures consistent height */
+    display: block;
+  }
+
+  .section {
+    margin-bottom: 30px;
+  }
+
+  .bar-graph {
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .bar {
+    width: 15px;
+    background-color: #3f51b5;
+    border-radius: 3px;
+    transition: height 0.3s ease;
+  }
+
+  .bar:hover {
+    background-color: #1e88e5;
+  }
+
+  /* Drop Downs */
+  .dropdown-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .dropdown {
+    flex: 1;
+    margin-right: 10px;
+  }
+
+  .dropdown:last-child {
+    margin-right: 0;
+  }
+
+  select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #f9f9f9;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
